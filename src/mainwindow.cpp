@@ -17,11 +17,11 @@ MainWindow::MainWindow(QWidget *parent) :
     angMeas = "deg";
     OrbitPixParamsObj = NULL;
 
-    ui->hLineEdit->setText("550");
-    ui->fovLineEdit->setText("18");
-    ui->angLineEdit->setText("15");
-    ui->rLineEdit->setText("6371");
-    ui->pxLineEdit->setText("640");
+    // ui->hLineEdit->setText("550");
+    // ui->fovLineEdit->setText("18");
+    // ui->angLineEdit->setText("15");
+    // ui->rLineEdit->setText("6371");
+    // ui->pxLineEdit->setText("640");
 
 
     // Validators:
