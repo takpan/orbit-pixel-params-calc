@@ -10,17 +10,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // Window title:
-    MainWindow::setWindowTitle("Orbit pixel size calculator");
+    MainWindow::setWindowTitle("Orbit pixel parameters calculator");
 
     // initializations:
-    fovMeas = "rad";
-    angMeas = "rad";
+    fovMeas = "deg";
+    angMeas = "deg";
+    OrbitPixParamsObj = NULL;
 
-//    ui->hLineEdit->setText("550");
-//    ui->fovLineEdit->setText("18");
-//    ui->angLineEdit->setText("15");
-//    ui->rLineEdit->setText("6371");
-//    ui->pxLineEdit->setText("640");
+    ui->hLineEdit->setText("550");
+    ui->fovLineEdit->setText("18");
+    ui->angLineEdit->setText("15");
+    ui->rLineEdit->setText("6371");
+    ui->pxLineEdit->setText("640");
 
 
     // Validators:
@@ -82,13 +83,14 @@ void MainWindow::on_fovComboBox_currentIndexChanged(const QString &arg1)
     fov = convToRad(temp, fovMeas);
 }
 
-// angLineEdit --> ang
+// angLineEdit --> viewAng
 void MainWindow::on_angLineEdit_textChanged(const QString &arg1)
 {
     double temp;
+
     ui->tableWidget->setRowCount(0);
     storeDoubleVal(arg1, &temp);
-    ang = convToRad(temp, angMeas);
+    viewAng = convToRad(temp, angMeas);
 }
 
 void MainWindow::on_angComboBox_currentIndexChanged(const QString &arg1)
@@ -98,7 +100,7 @@ void MainWindow::on_angComboBox_currentIndexChanged(const QString &arg1)
     ui->tableWidget->setRowCount(0);
     angMeas = arg1;
     storeDoubleVal(ui->angLineEdit->text(), &temp);
-    ang = convToRad(temp, angMeas);
+    viewAng = convToRad(temp, angMeas);
 }
 
 // rLineEdit --> r
@@ -116,53 +118,130 @@ void MainWindow::on_pxLineEdit_textChanged(const QString &arg1)
 }
 
 void MainWindow::on_calcPushButton_clicked()
-{    
-    mathCalcObj = new MathCalc(h, fov, ang, r, px); // create a MathCalc object
-    mathCalcObj->losCalc(); // calculate the line of sight for all cases (pixels)
-    mathCalcObj->pixSizeCalc(); // calculate the corresponding size (on Earth) of all pixels
-
-    // Get the results (vectors) from MathCalc class
-    angVec = mathCalcObj->getAngVec();
-    losVec = mathCalcObj->getLosVec();
-    pixVec = mathCalcObj->getPixVec();
-
-    // Prepare the table
-    ui->tableWidget->setRowCount(px);
-    ui->tableWidget->setColumnCount(4);
-    QStringList header;
-    header << "Pixel" << "Angle (center)" << "LoS (km)" << "Size (m)";
-    ui->tableWidget->setHorizontalHeaderLabels(header);
-
-    // Create the cells
-    for(int i = 0; i < px; i++)
+{
+    if (OrbitPixParamsObj == NULL)
+        OrbitPixParamsObj = new OrbitPixParams(h, fov, viewAng, r, px); // create a OrbitPixParams object
+    else
     {
-        for(int j = 0; j < 4; j++)
-        {
-            ui->tableWidget->setItem(i,j,new QTableWidgetItem());
-            ui->tableWidget->item(i,j)->setTextAlignment(Qt::AlignCenter);
-        }
+        OrbitPixParamsObj->setH(h);
+        OrbitPixParamsObj->setFov(fov);
+        OrbitPixParamsObj->setAng(viewAng);
+        OrbitPixParamsObj->setR(r);
+        OrbitPixParamsObj->setPx(px);
     }
 
-    // Fill the table
-    for (int i = 0; i < px; i++)
+    OrbitPixParamsObj->losCalc(); // calculate the line of sight for all cases (pixels)
+    OrbitPixParamsObj->pixSizeCalc(); // calculate the corresponding size (on Earth) of all pixels
+
+    if (!OrbitPixParamsObj->getErrFov() && !OrbitPixParamsObj->getErrViewAng())
     {
-        ui->tableWidget->item(i, 0)->setText(QString::number(i + 1));
+        // Get the results (vectors) from OrbitPixParams class
+        angVec = OrbitPixParamsObj->getAngVec();
+        losVec = OrbitPixParamsObj->getLosVec();
+        pixVec = OrbitPixParamsObj->getPixVec();
 
-        if (angMeas == "rad")
-            ui->tableWidget->item(i, 1)->setText(QString::number(angVec[i], 'f', 5));
-        else if (angMeas == "deg")
-            ui->tableWidget->item(i, 1)->setText(QString::number(convToDeg(angVec[i]), 'f', 3)); // convert the output value to deg (same as the input)
-        else if (angMeas == "grad")
-            ui->tableWidget->item(i, 1)->setText(QString::number(convToGrad(angVec[i]), 'f', 3)); // convert the output value to grad (same as the input)
+        // Prepare the table
+        ui->tableWidget->setRowCount(px);
+        ui->tableWidget->setColumnCount(4);
+        QStringList header;
+        header << "Pixel" << "Angle (center)" << "LoS (km)" << "Size (m)";
+        ui->tableWidget->setHorizontalHeaderLabels(header);
 
-        ui->tableWidget->item(i, 2)->setText(QString::number(losVec[i], 'f', 3));
-        ui->tableWidget->item(i, 3)->setText(QString::number(pixVec[i] * 1000, 'f', 2)); // convert the size to meters
+        // Create the cells
+        for(int i = 0; i < px; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                ui->tableWidget->setItem(i,j,new QTableWidgetItem());
+                ui->tableWidget->item(i,j)->setTextAlignment(Qt::AlignCenter);
+            }
+        }
+
+        // Fill the table
+        for (int i = 0; i < px; i++)
+        {
+            ui->tableWidget->item(i, 0)->setText(QString::number(i + 1));
+
+            if (angMeas == "rad")
+                ui->tableWidget->item(i, 1)->setText(QString::number(angVec[i], 'f', 5));
+            else if (angMeas == "deg")
+                ui->tableWidget->item(i, 1)->setText(QString::number(convToDeg(angVec[i]), 'f', 3)); // convert the output value to deg (same as the input)
+            else if (angMeas == "grad")
+                ui->tableWidget->item(i, 1)->setText(QString::number(convToGrad(angVec[i]), 'f', 3)); // convert the output value to grad (same as the input)
+
+            ui->tableWidget->item(i, 2)->setText(QString::number(losVec[i], 'f', 3));
+            ui->tableWidget->item(i, 3)->setText(QString::number(pixVec[i] * 1000, 'f', 2)); // convert the size to meters
+        }
+    }
+    else
+    {
+        QString prTxt = QString(OrbitPixParamsObj->getErrMsg().c_str());
+        if (OrbitPixParamsObj->getErrFov())
+        {
+            if (fovMeas == "rad")
+                prTxt += " (" + QString::number(OrbitPixParamsObj->getMaxFov()) + ")";
+            else if (fovMeas == "deg")
+                prTxt += " (" + QString::number(convToDeg(OrbitPixParamsObj->getMaxFov())) + ")";
+            else if (fovMeas == "grad")
+                prTxt += " (" + QString::number(convToGrad(OrbitPixParamsObj->getMaxFov())) + ")";
+        }
+
+        else if (OrbitPixParamsObj->getErrViewAng())
+        {
+            if (fovMeas == "rad")
+                prTxt += " (" + QString::number(OrbitPixParamsObj->getmaxViewAng()) + ")";
+            else if (fovMeas == "deg")
+                prTxt += " (" + QString::number(convToDeg(OrbitPixParamsObj->getmaxViewAng())) + ")";
+            else if (fovMeas == "grad")
+                prTxt += " (" + QString::number(convToGrad(OrbitPixParamsObj->getmaxViewAng())) + ")";
+        }
+
+        msgBox.setText(prTxt);
+        msgBox.exec();
     }
 }
 
+// pathLineEdit --> dir
+void MainWindow::on_pathLineEdit_textChanged(const QString &arg1)
+{
+    dir = arg1;
+}
+
+void MainWindow::on_selDirPushButton_clicked()
+{
+    dir = QFileDialog::getExistingDirectory(this, "Select directory", QCoreApplication::applicationDirPath(), QFileDialog::ShowDirsOnly| QFileDialog::DontResolveSymlinks);
+    ui->pathLineEdit->setText(dir);
+}
+
+// filenameLineEdit --> filename
+void MainWindow::on_filenameLineEdit_textChanged(const QString &arg1)
+{
+    filename = arg1;
+}
+
+// Expot to a text file
+void MainWindow::on_exportPushButton_clicked()
+{
+    QString fullPath = dir + "/" + filename; // prepare the filepath
+    QFileInfo info (fullPath);
+    bool ok;
+
+    ok = OrbitPixParamsObj->printToFile(fullPath.toStdString().c_str(), angMeas.toStdString());
+
+    if(ok)
+    {
+        msgBox.setText("Succesful export!");
+        msgBox.exec();
+    }
+    else
+    {
+        msgBox.setText("Can't create the file. Check the file path.");
+        msgBox.exec();
+    }
+}
 
 //-----------------------------------------------------------------------------
-// CUSTOM METHODS/FUNCTIONS:
+// CUSTOM METHODS:
 //-----------------------------------------------------------------------------
 
 void MainWindow::storeIntVal(QString val, int *var)
