@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QMessageBox>
-#include "mathcalc.h"
+#include <QFileDialog>
+#include "orbitpixparams.h"
 
 namespace Ui {
 class MainWindow;
@@ -45,17 +46,28 @@ private slots:
 
     void on_angComboBox_currentIndexChanged(const QString &arg1);
 
+    void on_selDirPushButton_clicked();
+
+    void on_pathLineEdit_textChanged(const QString &arg1);
+
+    void on_filenameLineEdit_textChanged(const QString &arg1);
+
+    void on_exportPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     int px;
 
-    double h, fov, ang, r;
+    double h, fov, viewAng, r;
 
     QMessageBox msgBox;
-    QString fovMeas, angMeas;
-    MathCalc *mathCalcObj;
-    std::vector<double> angVec, dAngSidesVec, pixVec, losVec;
+
+    QString fovMeas, angMeas, dir, filename;
+
+    OrbitPixParams *OrbitPixParamsObj;
+
+    vector<double> angVec, dAngSidesVec, pixVec, losVec;
 
 };
 
