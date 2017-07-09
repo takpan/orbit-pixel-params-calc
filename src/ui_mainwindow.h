@@ -14,17 +14,21 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -33,16 +37,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QPushButton *calcPushButton;
-    QGroupBox *groupBox;
-    QWidget *widget;
-    QGridLayout *gridLayout_2;
-    QLabel *label_6;
-    QLineEdit *pathLineEdit;
-    QPushButton *selDirPushButton;
-    QLabel *label_8;
-    QLineEdit *filenameLineEdit;
-    QPushButton *exportPushButton;
+    QGridLayout *gridLayout_3;
     QGroupBox *groupBox_2;
     QWidget *layoutWidget;
     QGridLayout *gridLayout;
@@ -61,7 +56,25 @@ public:
     QLabel *label_5;
     QLineEdit *pxLineEdit;
     QGroupBox *groupBox_3;
+    QGridLayout *gridLayout_4;
     QTableWidget *tableWidget;
+    QGroupBox *groupBox_4;
+    QGridLayout *gridLayout_5;
+    QGraphicsView *graphicsView;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *calcPushButton;
+    QSpacerItem *horizontalSpacer;
+    QVBoxLayout *verticalLayout;
+    QSpacerItem *horizontalSpacer_2;
+    QGroupBox *groupBox;
+    QGridLayout *gridLayout_6;
+    QGridLayout *gridLayout_2;
+    QLabel *label_6;
+    QLineEdit *pathLineEdit;
+    QPushButton *selDirPushButton;
+    QLabel *label_8;
+    QLineEdit *filenameLineEdit;
+    QPushButton *exportPushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -70,59 +83,20 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(663, 437);
+        MainWindow->resize(960, 584);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        calcPushButton = new QPushButton(centralWidget);
-        calcPushButton->setObjectName(QStringLiteral("calcPushButton"));
-        calcPushButton->setGeometry(QRect(145, 240, 85, 23));
-        groupBox = new QGroupBox(centralWidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(20, 270, 621, 101));
-        widget = new QWidget(groupBox);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(10, 30, 601, 60));
-        gridLayout_2 = new QGridLayout(widget);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        label_6 = new QLabel(widget);
-        label_6->setObjectName(QStringLiteral("label_6"));
-
-        gridLayout_2->addWidget(label_6, 0, 0, 1, 1);
-
-        pathLineEdit = new QLineEdit(widget);
-        pathLineEdit->setObjectName(QStringLiteral("pathLineEdit"));
-
-        gridLayout_2->addWidget(pathLineEdit, 0, 1, 1, 1);
-
-        selDirPushButton = new QPushButton(widget);
-        selDirPushButton->setObjectName(QStringLiteral("selDirPushButton"));
-
-        gridLayout_2->addWidget(selDirPushButton, 0, 2, 1, 1);
-
-        label_8 = new QLabel(widget);
-        label_8->setObjectName(QStringLiteral("label_8"));
-
-        gridLayout_2->addWidget(label_8, 1, 0, 1, 1);
-
-        filenameLineEdit = new QLineEdit(widget);
-        filenameLineEdit->setObjectName(QStringLiteral("filenameLineEdit"));
-
-        gridLayout_2->addWidget(filenameLineEdit, 1, 1, 1, 1);
-
-        exportPushButton = new QPushButton(widget);
-        exportPushButton->setObjectName(QStringLiteral("exportPushButton"));
-
-        gridLayout_2->addWidget(exportPushButton, 1, 2, 1, 1);
-
+        gridLayout_3 = new QGridLayout(centralWidget);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
         groupBox_2 = new QGroupBox(centralWidget);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        groupBox_2->setGeometry(QRect(20, 10, 211, 221));
+        groupBox_2->setMinimumSize(QSize(211, 331));
+        groupBox_2->setMaximumSize(QSize(211, 16777215));
         layoutWidget = new QWidget(groupBox_2);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(10, 30, 191, 181));
+        layoutWidget->setGeometry(QRect(12, 33, 187, 281));
         gridLayout = new QGridLayout(layoutWidget);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);
@@ -205,17 +179,117 @@ public:
 
         gridLayout->addWidget(pxLineEdit, 4, 1, 1, 1);
 
+
+        gridLayout_3->addWidget(groupBox_2, 0, 0, 1, 1);
+
         groupBox_3 = new QGroupBox(centralWidget);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
-        groupBox_3->setGeometry(QRect(240, 10, 401, 251));
-        groupBox_3->setMinimumSize(QSize(4, 0));
+        groupBox_3->setMinimumSize(QSize(401, 331));
+        groupBox_3->setMaximumSize(QSize(401, 16777215));
+        gridLayout_4 = new QGridLayout(groupBox_3);
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setContentsMargins(11, 11, 11, 11);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
         tableWidget = new QTableWidget(groupBox_3);
         tableWidget->setObjectName(QStringLiteral("tableWidget"));
-        tableWidget->setGeometry(QRect(10, 30, 379, 211));
+
+        gridLayout_4->addWidget(tableWidget, 0, 0, 1, 1);
+
+
+        gridLayout_3->addWidget(groupBox_3, 0, 1, 1, 1);
+
+        groupBox_4 = new QGroupBox(centralWidget);
+        groupBox_4->setObjectName(QStringLiteral("groupBox_4"));
+        groupBox_4->setMinimumSize(QSize(315, 331));
+        gridLayout_5 = new QGridLayout(groupBox_4);
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setContentsMargins(11, 11, 11, 11);
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        graphicsView = new QGraphicsView(groupBox_4);
+        graphicsView->setObjectName(QStringLiteral("graphicsView"));
+        graphicsView->setMinimumSize(QSize(0, 0));
+
+        gridLayout_5->addWidget(graphicsView, 0, 0, 1, 1);
+
+
+        gridLayout_3->addWidget(groupBox_4, 0, 2, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        calcPushButton = new QPushButton(centralWidget);
+        calcPushButton->setObjectName(QStringLiteral("calcPushButton"));
+
+        horizontalLayout->addWidget(calcPushButton);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+
+        gridLayout_3->addLayout(horizontalLayout, 1, 0, 1, 3);
+
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(6);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalSpacer_2 = new QSpacerItem(898, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        verticalLayout->addItem(horizontalSpacer_2);
+
+
+        gridLayout_3->addLayout(verticalLayout, 2, 0, 1, 3);
+
+        groupBox = new QGroupBox(centralWidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setMinimumSize(QSize(621, 101));
+        groupBox->setMaximumSize(QSize(16777215, 101));
+        gridLayout_6 = new QGridLayout(groupBox);
+        gridLayout_6->setSpacing(6);
+        gridLayout_6->setContentsMargins(11, 11, 11, 11);
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        label_6 = new QLabel(groupBox);
+        label_6->setObjectName(QStringLiteral("label_6"));
+
+        gridLayout_2->addWidget(label_6, 0, 0, 1, 1);
+
+        pathLineEdit = new QLineEdit(groupBox);
+        pathLineEdit->setObjectName(QStringLiteral("pathLineEdit"));
+
+        gridLayout_2->addWidget(pathLineEdit, 0, 1, 1, 1);
+
+        selDirPushButton = new QPushButton(groupBox);
+        selDirPushButton->setObjectName(QStringLiteral("selDirPushButton"));
+
+        gridLayout_2->addWidget(selDirPushButton, 0, 2, 1, 1);
+
+        label_8 = new QLabel(groupBox);
+        label_8->setObjectName(QStringLiteral("label_8"));
+
+        gridLayout_2->addWidget(label_8, 1, 0, 1, 1);
+
+        filenameLineEdit = new QLineEdit(groupBox);
+        filenameLineEdit->setObjectName(QStringLiteral("filenameLineEdit"));
+
+        gridLayout_2->addWidget(filenameLineEdit, 1, 1, 1, 1);
+
+        exportPushButton = new QPushButton(groupBox);
+        exportPushButton->setObjectName(QStringLiteral("exportPushButton"));
+
+        gridLayout_2->addWidget(exportPushButton, 1, 2, 1, 1);
+
+
+        gridLayout_6->addLayout(gridLayout_2, 0, 0, 1, 1);
+
+
+        gridLayout_3->addWidget(groupBox, 3, 0, 1, 3);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 663, 23));
+        menuBar->setGeometry(QRect(0, 0, 960, 23));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -232,12 +306,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
-        calcPushButton->setText(QApplication::translate("MainWindow", "Calculate", Q_NULLPTR));
-        groupBox->setTitle(QApplication::translate("MainWindow", "Export to file", Q_NULLPTR));
-        label_6->setText(QApplication::translate("MainWindow", "Path:", Q_NULLPTR));
-        selDirPushButton->setText(QApplication::translate("MainWindow", "Select dir", Q_NULLPTR));
-        label_8->setText(QApplication::translate("MainWindow", "Filename:", Q_NULLPTR));
-        exportPushButton->setText(QApplication::translate("MainWindow", "Export", Q_NULLPTR));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "Input", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "Height:", Q_NULLPTR));
         label_7->setText(QApplication::translate("MainWindow", "km", Q_NULLPTR));
@@ -259,6 +327,13 @@ public:
         label_11->setText(QApplication::translate("MainWindow", "km", Q_NULLPTR));
         label_5->setText(QApplication::translate("MainWindow", "Pixels:", Q_NULLPTR));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "Results", Q_NULLPTR));
+        groupBox_4->setTitle(QApplication::translate("MainWindow", "Preview", Q_NULLPTR));
+        calcPushButton->setText(QApplication::translate("MainWindow", "Calculate", Q_NULLPTR));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Export to file", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "Path:", Q_NULLPTR));
+        selDirPushButton->setText(QApplication::translate("MainWindow", "Select dir", Q_NULLPTR));
+        label_8->setText(QApplication::translate("MainWindow", "Filename:", Q_NULLPTR));
+        exportPushButton->setText(QApplication::translate("MainWindow", "Export", Q_NULLPTR));
     } // retranslateUi
 
 };

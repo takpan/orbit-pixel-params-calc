@@ -6,7 +6,6 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
-#include <math.h>
 
 using namespace std;
 
@@ -17,9 +16,9 @@ public:
 
     OrbitPixParams(double h, double fov, double viewAng, double r, int px);
 
-    void pixSizeCalc();
-
     void losCalc();
+
+    void pixSizeCalc();
 
     void setH(double h);
 
@@ -58,6 +57,8 @@ private:
     double sinLawSide(double angle_1, double angle_2, double side_1);
 
     double cosLaw(double side_1, double side_2, double angle);
+
+    double strtLineLenCalc(double ang_1);
 
     void dAngSidesCalc();
 

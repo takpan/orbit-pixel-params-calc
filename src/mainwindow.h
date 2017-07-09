@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QGraphicsPixmapItem>
 #include "orbitpixparams.h"
 
 namespace Ui {
@@ -54,7 +55,12 @@ private slots:
 
     void on_exportPushButton_clicked();
 
-private:
+
+private:   
+    void clearScene(QGraphicsScene *scene);
+
+    void drawFig();
+
     Ui::MainWindow *ui;
 
     int px;
@@ -65,9 +71,11 @@ private:
 
     QString fovMeas, angMeas, dir, filename;
 
-    OrbitPixParams *OrbitPixParamsObj;
+    OrbitPixParams *orbitPixParamsObj;
 
     vector<double> angVec, dAngSidesVec, pixVec, losVec;
+
+    QGraphicsScene *scene;
 
 };
 

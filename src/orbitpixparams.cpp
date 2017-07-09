@@ -73,7 +73,6 @@ void OrbitPixParams::maxViewAngCalc()
 bool OrbitPixParams::checkCond()
 {
     bool ok = true;
-    stringstream errSs;
 
     if (fov > maxFov)
     {
@@ -82,7 +81,7 @@ bool OrbitPixParams::checkCond()
         ok = false;
     }
 
-    else if (viewAng > maxViewAng)
+    else if (fabs(viewAng) > maxViewAng)
     {
         errViewAng = true;
         errMsg = "View angle is greater than the max allowed value";
@@ -92,20 +91,28 @@ bool OrbitPixParams::checkCond()
     return ok;
 }
 
+// Calculate the length of a straight line, starting from the satellite and ending on the planet's surface (/| when this angle is given).
+double OrbitPixParams::strtLineLenCalc(double ang_1)
+{
+    double ang_2, ang_3, lineLen;
+
+    ang_2 = 2 * PI - sinLawAng(r, r + h, ang_1);
+    ang_3 = 2 * PI - ang_1 - ang_2;
+    lineLen = sinLawSide(ang_1, ang_3, r);
+
+    return lineLen;
+}
+
 // Calculate the lenth of all sides of the angles resulting after the segmetation of the fov into px parts.
 void OrbitPixParams::dAngSidesCalc()
 {
     vector<double> dAngSidesVec(px + 1);
-    double side_1, side_2, ang_1, ang_2, ang_3;
+    double ang_1;
 
-    side_1 = r;
-    side_2 = r + h;
     for (int i = 0; i <= px; i++)
     {
         ang_1 = viewAng + fov / 2 - i * dViewAng;
-        ang_2 = 2 * PI - sinLawAng(side_1, side_2, ang_1);
-        ang_3 = 2 * PI - ang_1 - ang_2;
-        dAngSidesVec[i] = sinLawSide(ang_1, ang_3, side_1);
+        dAngSidesVec[i] = strtLineLenCalc(ang_1);
     }
 
     this->dAngSidesVec = dAngSidesVec;
@@ -116,18 +123,16 @@ void OrbitPixParams::losCalc()
 {
     vector<double> losVec(px);
     vector<double> angVec(px);
-    double side_1, side_2, ang_1, ang_2, ang_3;
+    double ang_1;
 
     if (checkCond())
     {
-        side_1 = r;
-        side_2 = r + h;
+        //side_1 = r;
+        //side_2 = r + h;
         for (int i = 0; i < px; i++)
         {
             ang_1 = viewAng + (fov / 2) - (i + 1) * dViewAng + (dViewAng / 2);
-            ang_2 = 2 * PI - sinLawAng(side_1, side_2, ang_1);
-            ang_3 = 2 * PI - ang_1 - ang_2;
-            losVec[i] = sinLawSide(ang_1, ang_3, side_1); // in each step, store the calculated line of sight
+            losVec[i] = strtLineLenCalc(ang_1); // in each step, store the calculated line of sight
             angVec[i] = ang_1; // in each step, store the angle used
         }
         this->losVec = losVec;

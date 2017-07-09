@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = OrbitPixelSizeCalc
+TARGET = OrbitPixelParamsCalc
 TEMPLATE = app
 
 
@@ -20,3 +20,6 @@ HEADERS  += mainwindow.h \
     orbitpixparams.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    icons.qrc
