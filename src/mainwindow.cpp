@@ -48,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget->setColumnWidth(1,90);
     ui->tableWidget->setColumnWidth(2,90);
     ui->tableWidget->setColumnWidth(3,90);
-
 }
 
 MainWindow::~MainWindow()
@@ -273,7 +272,6 @@ void MainWindow::storeDoubleVal(QString val, double *var)
 double MainWindow::convToRad(double angle, QString measure)
 {
     double val;
-    //const double pi = 3.141592653589793;
 
     if (measure == "rad")
         val = angle;
@@ -341,7 +339,7 @@ void MainWindow::drawFig()
         dx = fabs(side2X - side1X) > fabs(side2X) ? fabs(side2X - side1X) : fabs(side2X);
 
     // Drawing parameters
-    image.load("img/sat.png");
+    image.load("../icons/sat.png");
     linePen.setWidth(2);
     linePen.setColor(Qt::gray);
     linePen.setStyle(Qt::DotLine);
