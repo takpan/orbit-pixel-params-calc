@@ -348,7 +348,7 @@ void MainWindow::drawFig()
     planetFillColor.setRgb(102,77,0);
     planetBrush.setColor(planetFillColor);
 
-    // Calculate the faactor and the margin
+    // Calculate the factor and the margin
     winH = ui->graphicsView->height();
     winW = ui->graphicsView->width();
     dy = fabs(side1Y - side2Y);
@@ -381,7 +381,7 @@ void MainWindow::drawFig()
     planet->setPen(planetSurface);
 
     // Set the scene rectangle
-    if (viewAng > fov / 2)
+    if (viewAng >= fov / 2)
         scene->setSceneRect((r - side1X) * factor - margin, -h * factor - 50, winW, (h + dy) * factor + 100);
     else if (viewAng < - fov / 2)
         scene->setSceneRect(r * factor - margin, -h * factor - 50, winW, (h + dy) * factor + 100);

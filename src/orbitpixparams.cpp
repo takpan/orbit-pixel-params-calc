@@ -112,7 +112,10 @@ void OrbitPixParams::dAngSidesCalc()
     for (int i = 0; i <= px; i++)
     {
         ang_1 = viewAng + fov / 2 - i * dViewAng;
-        dAngSidesVec[i] = strtLineLenCalc(ang_1);
+        if (ang_1)
+            dAngSidesVec[i] = strtLineLenCalc(ang_1);
+        else // do not use the law of sines when the angle_1 is equal to 0. Directly assign the requested value (h) to the vector.
+            dAngSidesVec[i] = h;
     }
 
     this->dAngSidesVec = dAngSidesVec;
